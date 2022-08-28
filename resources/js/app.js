@@ -3,10 +3,10 @@ import { InertiaProgress } from '@inertiajs/progress'
 import { createInertiaApp, Link } from '@inertiajs/inertia-vue3'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
-import { faChevronRight, faUser, faKey,faEdit } from "@fortawesome/free-solid-svg-icons"
+import { faChevronRight, faUser, faKey,faEdit, faClose } from "@fortawesome/free-solid-svg-icons"
 import Layout from "./Layout.vue"
 
-library.add(faChevronRight, faUser, faKey,faEdit)
+library.add(faChevronRight, faUser, faKey,faEdit, faClose)
 
 
 

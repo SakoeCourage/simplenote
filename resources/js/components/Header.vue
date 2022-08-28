@@ -10,15 +10,16 @@
                  
                     <div class="hidden md:block">
                         <div class="ml-10 flex items-baseline space-x-4">
-                            <inertia-link :class="{ 'text-gray-800': $page.component == 'Home' }" class="text-gray-300  hover:text-gray-800  px-3 py-2 rounded-md text-sm md:text-lg font-medium" href="/">
+                            <inertia-link :class="{ 'active': $page.component === 'Home' }" class="text-gray-300  hover:text-gray-800  px-3 py-2 text-sm md:text-[1rem] font-medium" href="/">
                                 Home
                             </inertia-link>
-                            <inertia-link :class="{ 'text-gray-800': $page.component == 'Post' }" class="  hover:text-gray-800  text-gray-300 px-3 py-2 rounded-md text-sm md:text-lg font-medium" href="/post">
-                                Post 
+                            <inertia-link :class="{ 'active': $page.component === 'Post' }" class="  hover:text-gray-800  text-gray-300 px-3 py-2 text-sm md:text-[1rem] font-medium" href="/post">
+                                make note 
                             </inertia-link>
+                       
                         
                         </div>
-                        <div>{{ authUser }}</div>
+                        
                     </div>
                 </div>
                 <div class="block z-20">
@@ -87,13 +88,15 @@
 
 </template>
 <script setup>
-import { computed,ref,defineProps } from 'vue'
+import { computed,ref,defineProps, onMounted, watch } from 'vue'
 import { usePage } from '@inertiajs/inertia-vue3'
+import {Inertia} from '@inertiajs/inertia'
 
 let showdrop = ref(false)
 
  const authUser = computed(()=> usePage().props.value.auth.user)
 
+let getCurrentPageComponent = computed(()=> Inertia.page.component) ;
 
 
 
@@ -101,6 +104,12 @@ let showdrop = ref(false)
 
 
 </script>
+
+<style>
+    .active{
+       @apply text-gray-700 bg-gray-200
+    }
+</style>
 
 
 

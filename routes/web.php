@@ -32,6 +32,8 @@ Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class,'
 
 Route::post('/post/create',[\App\Http\Controllers\PostController::class, 'create']);
 
+Route::get('/{slug}/view',[\App\Http\Controllers\PostController::class, 'index'])->name('getbyslug');
+
 
 
 

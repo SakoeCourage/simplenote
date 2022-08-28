@@ -2,7 +2,7 @@
     <div>
         
 <div ref="postcard"  class=" shadow-lg rounded-2xl min-h-max  bg-white w-64 h-64 m-auto p-2 postcard relative overflow-hidden flex items-end transform hover:scale-105 transition-transform duration-150 ease-linear ">
-    <nav class="absolute inset-0 bg-gray-100/30 hover:bg-transparent transition-all duration-150 ease-linear" ></nav>
+    <nav class="absolute inset-0 bg-gray-100/10 hover:bg-transparent transition-all duration-150 ease-linear" ></nav>
     <div class="w-full">
       <nav class=" w-full  flex justify-between  items-center">
           <nav class=" font-bold p-2 bg-gray-50 w-max rounded-lg text-sm text-gray-700 flex items-center gap-1">

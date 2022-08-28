@@ -1,11 +1,11 @@
 <template>
 
-    <div>
-{{ $page.props.errors }}
+    <div ref="main" class="main isolate relative bg-blue-500 h-screen bg-no-repeat bg-inherit transition-[background-image] ease-linear duration-500 ">
+         <nav class=" absolute z-[-1] inset-0 bg-gray-500/40 "></nav>
             
-<form @submit.prevent="fxnSubmitform" class="mx-auto flex w-full max-w-sm space-x-3">
-    <div ref="notecard" class="relative transition-[background-image] ease-linear duration-500 isolate object-cover w-full max-w-2xl px-5 py-10 m-auto mt-10 bg-white rounded-lg shadow border-2 ">
-        <nav class=" absolute z-[-1] inset-0 bg-gray-500/50"></nav>
+<form @submit.prevent="fxnSubmitform" class="mx-auto flex w-full max-w-sm space-x-3 ">
+    <div ref="notecard" class="bg-gray-100/40 relative transition-[background-image] ease-linear duration-500  object-cover w-full max-w-2xl px-5 py-10 m-auto mt-10 bg-white rounded-lg shadow border-2 ">
+      
        
        <button @click.prevent="getRandomimage" class="absolute top-1 right-1" v-if="!bgisLoading">
             <nav class="bg-gray-100 text-gray-400 px-2 shadow-lg rounded-md">change Background</nav>
@@ -29,11 +29,13 @@
                     <div class=" relative ">
                         <input type="text" v-model="formData.caption"  class=" rounded-lg border flex-1 appearance-none  border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent" placeholder="caption"/>
                         </div>
+                        <div class="text-red-400 text-sm pl-2 bg-gray-200/50 mt-1"> {{ errors.caption }}</div>
                     </div>
+                    <div> </div>
                     <div class="col-span-2">
                         
                             <textarea v-model="formData.body" class="flex-1  border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 rounded-lg text-base focus:outline-none focus:ring-2 focus:ring-gray-600 focus:border-transparent"  placeholder="enter details here..."  rows="5" cols="40" />
-                            
+                            <div class="text-red-400 text-sm pl-2 bg-gray-200/50 mt-1">{{ errors.body }}</div>
                            
                      
                     </div>
@@ -55,22 +57,38 @@
 </template>
 <script setup>
 
-import { onMounted,ref, watch} from 'vue'
+import { onMounted,ref, watch,defineProps} from 'vue'
 import axios from 'axios';
 import { useForm} from '@inertiajs/inertia-vue3'
 import { Inertia} from '@inertiajs/inertia'
 
-const { post } = Inertia
+
 
 let randimage = ref(null)
 let notecard = ref(null)
 let bgisLoading = ref(false)
+let main = ref(null)
+
+
+let props = defineProps({
+    errors:Object
+
+})
+
+
+
 let formData = useForm({
     caption : '',
     image:  'https://source.unsplash.com/collection/928423/480x480' ,
     body: ''
 
 });
+
+
+watch(()=>props.errors,(value)=>console.log(value))
+
+
+
 
 
 let getRandomimage = async() =>{
@@ -102,7 +120,9 @@ let fxnSubmitform = () =>{
 
 watch(randimage, (value )=>{
     formData.image = value
-    notecard.value.style.backgroundImage = `url(${value})`
+    // notecard.value.style.backgroundImage = `url(${value})`
+    main.value.style.backgroundImage = `url(${value})`
+    
 
 })
 
@@ -119,4 +139,14 @@ getRandomimage()
 
 
 </script>
+
+<style  scoped>
+
+.main{
+    background-size: 100% 100%;
+   
+
+}
+
+</style>
 
