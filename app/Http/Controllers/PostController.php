@@ -73,7 +73,7 @@ class PostController extends Controller
      */
     public function store(Request $request)
     {
-        //
+            
     }
 
     /**
@@ -84,9 +84,9 @@ class PostController extends Controller
      */
     public function show($slug)
     {       
-            $item = Post::where('slug','=',$slug)->firstorFail();
+            // $item = Post::where('slug','=',$slug)->firstorFail();
 
-            return inertia('Home');
+            // return inertia('Home');
 
     }
 
@@ -98,7 +98,20 @@ class PostController extends Controller
      */
     public function edit(Post $post)
     {
-        //
+        if(request()->user()->can('update',$post)){
+
+            return inertia('Edit',[
+
+                'Post' => $post
+    
+    ])  ;
+            
+        }else{
+            abort(403);
+        }
+
+
+
     }
 
     /**
@@ -108,9 +121,21 @@ class PostController extends Controller
      * @param  \App\Models\Post  $post
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Post $post)
-    {
-        //
+    public function update(Post $post)
+    {   
+
+        
+            $post->update([
+                'body' => request()->body,
+                'caption' => request()->caption
+
+            ]);
+
+
+            return redirect('/');
+
+                 
+    
     }
 
     /**
@@ -121,6 +146,11 @@ class PostController extends Controller
      */
     public function destroy(Post $post)
     {
-        //
+          $post->delete();
+
+          return redirect('/');
+
+
+
     }
 }

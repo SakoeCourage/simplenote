@@ -3,10 +3,10 @@ import { InertiaProgress } from '@inertiajs/progress'
 import { createInertiaApp, Link } from '@inertiajs/inertia-vue3'
 import { FontAwesomeIcon } from "@fortawesome/vue-fontawesome"
 import { library } from "@fortawesome/fontawesome-svg-core"
-import { faChevronRight, faUser, faKey,faEdit, faClose } from "@fortawesome/free-solid-svg-icons"
+import { faChevronRight, faUser, faKey, faEdit, faTrash,faClose } from "@fortawesome/free-solid-svg-icons"
 import Layout from "./Layout.vue"
 
-library.add(faChevronRight, faUser, faKey,faEdit, faClose)
+library.add(faChevronRight, faUser, faKey, faEdit, faTrash,faClose)
 
 
 
@@ -14,13 +14,14 @@ InertiaProgress.init()
 
 createInertiaApp({
     resolve: async name => {
-        let page = await import (`./Pages/${name}.vue`)
+        let page = await
+        import (`./Pages/${name}.vue`)
 
         if (page.default.layout === undefined) {
             page.default.layout = Layout;
         }
 
-        if (page.default.props ?.layout === null) {
+        if (page.default.props?.layout === null) {
             page.default.layout = undefined;
         }
         // console.log(page.default)

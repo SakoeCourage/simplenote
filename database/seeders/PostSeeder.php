@@ -18,7 +18,7 @@ class PostSeeder extends Seeder
     public function run()
     {
 
-        Post::factory()->count(10)->create();
+        Post::factory()->count(20)->create();
         // DB::table('posts')->insert([
         //     'user_id' => mt_rand(1,10),
         //     'caption' => Str::random(10),

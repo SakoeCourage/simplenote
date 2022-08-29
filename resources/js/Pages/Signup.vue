@@ -1,18 +1,22 @@
 <template>
 <div class="">
 
-{{ errors }}
+
      
     <div class=" grid place-items-center h-screen">
 
      <form @submit.prevent="fxnSignup" class=" border-2 border-gray-200 rounded-md p-5 sm:w-full md:w-2/5">
         <label for="" class="text-gray-500 inline-block my-5">Sign In Here or <inertia-link href="/login" class="text-gray-500 underline font-semibold"> sign in</inertia-link></label>
-    <div class="flex relative mb-4">
+    <div class="flex relative ">
     <span class="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
         <font-awesome-icon icon="user" />
     </span>
     <input v-model="formData.name" type="text" id="email-with-icon" class=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent" name="email" placeholder="name"/>
-    </div>
+        <br>        
+    
+        </div>
+        <nav class=" text-red-300 text-sm mb-4">{{ errors.name }}</nav>
+
     <div class="flex relative ">
     <span class="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
         <svg width="15" height="15" fill="currentColor" viewBox="0 0 1792 1792" xmlns="http://www.w3.org/2000/svg">
@@ -20,14 +24,16 @@
             </path>
         </svg>
     </span>
-    <input v-model="formData.email" type="text" id="email-with-icon" class=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent" name="email" placeholder="Your email"/>
+    <input  v-model="formData.email" type="text" id="email-with-icon" class=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent" name="email" placeholder="Your email"/>
     </div>
+    <nav class=" text-red-300 text-sm">{{ errors.email }}</nav>
     <div class="flex relative mt-5 ">
     <span class="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
         <font-awesome-icon icon="key" />
     </span>
     <input v-model="formData.password" type="password" id="passord-with-icon" class=" rounded-r-lg flex-1 appearance-none border border-gray-300 w-full py-2 px-4 bg-white text-gray-700 placeholder-gray-400 shadow-sm text-base focus:outline-none focus:ring-2 focus:ring-gray-500 focus:border-transparent" name="password" placeholder="Your password"/>
     </div>
+    <nav class=" text-red-300 text-sm">{{ errors.password }}</nav>
     <div class="flex relative mt-5 ">
     <span class="rounded-l-md inline-flex  items-center px-3 border-t bg-white border-l border-b  border-gray-300 text-gray-500 shadow-sm text-sm">
         <font-awesome-icon icon="key" />

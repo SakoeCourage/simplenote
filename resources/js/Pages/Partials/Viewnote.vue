@@ -4,7 +4,7 @@
         <Modal> 
             <div class="flex flex-col h-full rounded-t-md ">
               <div ref="imageHead" class=" basis-[30%] rounded-sm setbg relative" > 
-                <inertia-link href="/" as="button" preserve-scroll class="absolute top-1 right-2 text-white bg-gray-600 px-2  rounded-full"><font-awesome-icon icon="close" class=""/></inertia-link>
+                <inertia-link href="/" as="button" preserve-scroll class="absolute top-1 right-2 text-white bg-gray-600 px-2 py-1 rounded-full"><font-awesome-icon icon="close" class=""/></inertia-link>
               </div>
               <div class="grow p-5 overflow-y-scroll scrollbar ">
                 <nav class=" text-gray-500 flex items-center text-sm "> <font-awesome-icon icon="user" size="sm" class="mr-2"/> <span>{{ data[0].user.name }}</span></nav>

@@ -40,6 +40,9 @@ Route::group(['middleware' => 'auth'], function(){
                 return redirect('/login');
         });
         Route::get('/post', fn() =>inertia('Post'));
+        Route::get('/post/edit/{post:slug}',[\App\Http\Controllers\PostController::class, 'edit']);
+        Route::post('/post/edit/{post:slug}',[\App\Http\Controllers\PostController::class, 'update']); 
+        Route::post('/post/delete/{post}',[\App\Http\Controllers\PostController::class, 'destroy']); 
 });
 
 
