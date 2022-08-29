@@ -1,5 +1,6 @@
 <?php
 
+use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -16,24 +17,30 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/',  [\App\Http\Controllers\PostController::class, 'index']);
 
-Route::get('/post', fn() =>inertia('Post'));
 
-Route::get('/login', fn()=> inertia('Login'));
+
+Route::get('/login', fn()=> inertia('Login'))->name('login');
 
 Route::get('/signup', fn()=>inertia('Signup'));
 
-Route::post('/logout', function () {
-        Auth::logout();
-        return redirect('/login');
-});
+
 Route::post('/login',[\App\Http\Controllers\Auth\LoginController::class, 'index']);
 
 Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class,'register']);
 
-Route::post('/post/create',[\App\Http\Controllers\PostController::class, 'create']);
 
-Route::get('/{slug}/view',[\App\Http\Controllers\PostController::class, 'index'])->name('getbyslug');
 
+Route::get('/{slug}/view',[\App\Http\Controllers\PostController::class, 'index']);
+
+
+Route::group(['middleware' => 'auth'], function(){
+        Route::post('/post/create',[\App\Http\Controllers\PostController::class, 'create']);
+        Route::post('/logout', function () {
+                Auth::logout();
+                return redirect('/login');
+        });
+        Route::get('/post', fn() =>inertia('Post'));
+});
 
 
 

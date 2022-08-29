@@ -19,6 +19,8 @@ class PostController extends Controller
    
         
         $slug = request()->route('slug');
+
+
         
         return Inertia::render('Home', [
                             'post' => Post::latest()->paginate(10)->through(fn($post)=>[
@@ -29,7 +31,7 @@ class PostController extends Controller
                             'slug' => $post->slug,
                             'author' => $post->User ? $post->User->name : null,
                             'canEdit' =>Auth()->user() ? Request()->user()->can('update',$post) : false,
-                            'noteDetails' =>   fn()=>Post::where('slug','=',$slug)->with(['User'])->get()
+                            'noteDetails' =>   fn()=>Post::where('slug','=',$slug)->with('User:id,name')->get()
                 ]),
                
 
@@ -46,7 +48,7 @@ class PostController extends Controller
         $data = request()->validate([
                 'image' => ['required','string'],
                 'caption' => ['required','string'],
-                'body' => ['required','string'],
+                'body' => ['required','string','max:255'],
 
 
         ]);
