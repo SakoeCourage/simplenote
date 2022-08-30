@@ -5,7 +5,7 @@
     
    
     <nav class="px-8  mt-1 flex justify-end"><span class="py-2 px-5 rounded-full border-gray-400 text-sm border-2 inline-flex gap-2 text-gray-700"><span>Showing all items</span><span><font-awesome-icon icon="chevron-right"/></span></span></nav>
-       <div class="w-full text-center text-gray-500" v-if="post.data == 0"><span>no post found </span> <inertia-link href="/post/create" method="post" class="bg-blue-100  py-1 px-2 rounded-md text-blue-500 ">add</inertia-link ></div>
+       <div class="w-full text-center text-gray-500" v-if="post.data == 0"><span>no post found </span> <inertia-link href="/post" class="bg-blue-100  py-1 px-2 rounded-md text-blue-500 ">add</inertia-link ></div>
     <div class="mt-2 grid lg:grid-cols-4 gap-y-6 grid-cols-1 md:grid-cols-2 min-h-screen ">
        <Postitem v-for="(post,i) in post.data" :key="i"
         :image="post.image"
