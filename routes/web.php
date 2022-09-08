@@ -19,9 +19,9 @@ Route::get('/',  [\App\Http\Controllers\PostController::class, 'index']);
 
 
 
-Route::get('/login', fn()=> inertia('Login'))->name('login');
+Route::get('/login', function(){return inertia('Login');})->name('login')->middleware('guest');
 
-Route::get('/signup', fn()=>inertia('Signup'));
+Route::get('/signup', function(){return (inertia('Signup'));})->middleware('guest');
 
 
 Route::post('/login',[\App\Http\Controllers\Auth\LoginController::class, 'index']);
@@ -33,16 +33,20 @@ Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class,'
 Route::get('/{slug}/view',[\App\Http\Controllers\PostController::class, 'index']);
 
 
+
+
 Route::group(['middleware' => 'auth'], function(){
         Route::post('/post/create',[\App\Http\Controllers\PostController::class, 'create']);
-        Route::post('/logout', function () {
-                Auth::logout();
-                return redirect('/login');
-        });
-        Route::get('/post', fn() =>inertia('Post'));
+        Route::post('/logout', [\App\Http\Controllers\Auth\Logout::class, 'logout']);
+        Route::get('/create', [\App\Http\Controllers\PostController::class, 'show']);
         Route::get('/post/edit/{post:slug}',[\App\Http\Controllers\PostController::class, 'edit']);
         Route::post('/post/edit/{post:slug}',[\App\Http\Controllers\PostController::class, 'update']); 
         Route::post('/post/delete/{post}',[\App\Http\Controllers\PostController::class, 'destroy']); 
+        Route::post('/',[\App\Http\Controllers\PostController::class, 'index'])->name('Home');
+        Route::get('/trash',[\App\Http\Controllers\PostController::class, 'index'])->name('trash');
+        Route::get('/archive',[\App\Http\Controllers\PostController::class, 'index'])->name('archive');
+        Route::post('/archive/marksAsArchive/{id}',[\App\Http\Controllers\PostController::class, 'markAsArchive']);
+        Route::post('/archive/removefromArchive/{id}',[\App\Http\Controllers\PostController::class, 'removefromArchive']);
 });
 
 

@@ -21,6 +21,8 @@ return new class extends Migration
             $table->longText('caption');
             $table->longText('image');
             $table->string('body');
+            $table->boolean('isArchive')->default(false);
+            $table->softDeletes();
         });
     }
 

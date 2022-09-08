@@ -17,11 +17,16 @@ class PostFactory extends Factory
      */
     public function definition()
     {
+    
+           
+        $color_ranges = array("#fed7aa","#84cc16","#818cf8","#fca5a5");
+
+
         return [
             'user_id' => mt_rand(1,10),
             'caption' => fake()->sentence(3),
             'body' => fake()->sentence(15),
-            'image'=> 'https://source.unsplash.com/collection/928423/480x480'
+            'image'=>  $color_ranges[mt_rand(0,count($color_ranges)-1)]
         ];
     }
 }
