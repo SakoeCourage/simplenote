@@ -7,9 +7,12 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
+use App\Traits\PostTrait;
+
 
 class PostController extends Controller
 {
+    use PostTrait;
     /**
      * Display a listing of the resource.
      *
@@ -17,34 +20,26 @@ class PostController extends Controller
      */
     public function index($slug= null)
     {   
-        $currentItems = "All";
-        $slug = request()->route('slug');
-        $post = Post::query();
-        $currentRoute = Route::getCurrentRoute()->uri();
 
+         // Query Post Per Route
+         $post = $this->getPostItemsPerRoute();
+        
+        
+        // Chech if incoming request has slug
+         $slug = request()->route('slug');
+
+        
+
+        // Query Only Users Post
+         $currentItems = "All";
         if(request()->has('user_id')){
             $post = $post->where('user_id','=',request()->user_id);
             $currentItems = "My";
 
         }
-    
-        if($currentRoute == '/'){
-            $post = $post->where('isArchive','=',0);
 
-        }   
-        elseif($currentRoute == 'trash'){
-            $post = $post->onlyTrashed();  
-         
-        }elseif($currentRoute == 'archive'){
-            
-            $post = $post->where('isArchive','=',1);
-
-        }
-
-        
-       
-
-        
+     
+   
         return Inertia::render('Home', [
                             'post' => $post->search(request()->only('search','sort'))
                             ->latest()->paginate(10)
@@ -219,6 +214,20 @@ class PostController extends Controller
 
 
             ]);
+
+    }
+
+    public function getPostItemBySlug(Post $post){
+
+        if(request()->expectsJson()){
+            return(
+                [
+                  'noteDetails' =>   Post::where('slug','=', $post->slug)->with('User:id,name')->first(),
+                  'canEdit' => Auth()->user() ? Request()->user()->can('update', $post) : false
+                ]
+                );
+
+        }
 
     }
 }

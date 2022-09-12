@@ -31,9 +31,12 @@
           :slug="post.slug"
           :author="post.author"
           :created_at="post.created_at"
+          @getNotedata = setCurrentSlug
         />
       </div>
-      <Viewnote v-if="showViewnote" :data="props.noteDetails.noteDetails" :canEdit="props.noteDetails.canEdit" />
+      
+      <Viewnote v-if="currentSlug" :slug="currentSlug" @resetSlug="resetSlug"
+      />
     </div>
 
     <div class="my-5 flex gap-4 justify-center">
@@ -58,6 +61,7 @@ import Viewnote from "./Partials/Viewnote.vue";
 import Horizontalwheel from "../components/Horizontalwheel.vue";
 import { Inertia } from "@inertiajs/inertia";
 import { usePage } from "@inertiajs/inertia-vue3";
+import axios from "axios";
 
 import {
   computed,
@@ -71,6 +75,17 @@ import {
 defineComponent(["Header", "Postitem"]);
 
 let paginationLlinks = ref(null);
+let currentSlug = ref(null);
+
+
+let setCurrentSlug = (slug) =>{
+  currentSlug.value = slug
+
+}
+
+let resetSlug=()=>{
+  currentSlug.value = null
+}
 
 let props = defineProps({
   post: Object,
@@ -78,7 +93,7 @@ let props = defineProps({
   noteDetails: Object,
 });
 
-let showViewnote = computed(() => props.noteDetails.noteDetails.length != 0);
+
 
 onMounted(() => {
   paginationLlinks.value = props.post.links;

@@ -19,7 +19,7 @@
                                 d="M1523 1339q-22-155-87.5-257.5t-184.5-118.5q-67 74-159.5 115.5t-195.5 41.5-195.5-41.5-159.5-115.5q-119 16-184.5 118.5t-87.5 257.5q106 150 271 237.5t356 87.5 356-87.5 271-237.5zm-243-699q0-159-112.5-271.5t-271.5-112.5-271.5 112.5-112.5 271.5 112.5 271.5 271.5 112.5 271.5-112.5 112.5-271.5zm512 256q0 182-71 347.5t-190.5 286-285.5 191.5-349 71q-182 0-348-71t-286-191-191-286-71-348 71-348 191-286 286-191 348-71 348 71 286 191 191 286 71 348z">
                             </path>
                         </svg></button>
-                    <button data-collapse-toggle="navbar-sticky" @click="showdrop=!showdrop" type="button"
+                    <button data-collapse-toggle="navbar-sticky" @click="$emit('showMenu')" type="button"
                         class="inline-flex items-center p-2 text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200 dark:text-gray-400 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
                         aria-controls="navbar-sticky" aria-expanded="false">
                         <span class="sr-only">Open main menu</span>
@@ -31,7 +31,7 @@
                         </svg>
                     </button>
                 </div>
-                <div :class="{'hidden' : !showdrop}" class="  justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
+                <div  class="  justify-between items-center w-full md:flex md:w-auto md:order-1" id="navbar-sticky">
      
                     <Searchbar />
 

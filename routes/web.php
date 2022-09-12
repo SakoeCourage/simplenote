@@ -27,10 +27,14 @@ Route::get('/signup', function(){return (inertia('Signup'));})->middleware('gues
 Route::post('/login',[\App\Http\Controllers\Auth\LoginController::class, 'index']);
 
 Route::post('/register', [\App\Http\Controllers\Auth\RegisterController::class,'register']);
+Route::get('/users', [\App\Http\Controllers\PageController::class,'getUsers']);
 
 
 
 Route::get('/{slug}/view',[\App\Http\Controllers\PostController::class, 'index']);
+Route::get('/{post:slug}/json',[\App\Http\Controllers\PostController::class, 'getPostItemBySlug']);
+
+
 
 
 

@@ -4,30 +4,37 @@
         <Modal> 
             <div class="flex flex-col h-full rounded-t-md ">
               <div ref="imageHead" class=" basis-[30%] rounded-t-md setbg relative" > 
-                <inertia-link @click="navigateback()" as="button" preserve-scroll class="absolute top-1 right-2 text-white  px-2 py-1 rounded-full"><font-awesome-icon icon="close" class=""/></inertia-link>
-                <div v-if="canEdit">
+                <nav v-if="isLoading" class=" bg-gray-500/60 absolute inset-0 animate-pulse"></nav>
+                <button @click="$emit('resetSlug')" as="button" preserve-scroll class="absolute top-1 right-2 text-white  px-2 py-1 rounded-full"><font-awesome-icon icon="close" class=""/></button>
+                <div v-if="c_canEdit">
                 <inertia-link 
-                  v-if="props.data[0].isArchive"
+                 
                   as="button" 
                   :href="'/archive/removefromArchive/'+id"
                   method="post"
-                  
+                  v-if="c_noteDetails.isArchive"
                  class="bg-gray-300/50 text-sm text-gray-500 px-2 rounded-md absolute bottom-1 right-1 flex items-center justify-between gap-2"><font-awesome-icon icon="box-archive" size="xs" />  <span>remove</span> </inertia-link >
                 <inertia-link as="button" 
-                   v-if="!props.data[0].isArchive"
+                 
                   :href="'/archive/marksAsArchive/'+id"
                   method="post"
-                  
+                  v-if="!c_noteDetails.isArchive"
                  class="bg-gray-300/50 text-sm text-gray-500 px-2 rounded-md absolute bottom-1 right-1 flex items-center justify-between gap-2"><font-awesome-icon icon="box-archive" size="xs" />  <span>archive</span> </inertia-link >
                 </div>
                 </div>
               <div class="grow p-5 overflow-y-scroll scrollbar ">
-                <nav class=" text-gray-500 flex items-center text-sm "> <font-awesome-icon icon="user" size="sm" class="mr-2"/> <span>{{ data[0].user.name }}</span></nav>
-                <nav class="w-full my-2 inline-block text-gray-700 leading-normal  font-semibold text-lg">{{ data[0].caption }}</nav>
-                <nav class="text-sm text-gray-500 trix-editor" v-html="data[0].body">
+                <nav v-if="!isLoading" class=" text-gray-500 flex items-center text-sm "> <font-awesome-icon icon="user" size="sm" class="mr-2"/> <span>{{c_noteDetails?.user.name }}</span></nav>
+                <nav v-if="isLoading" class=" bg-gray-500/20 rounded-lg animate-pulse flex items-center text-sm ">  <span>&nbsp;</span></nav>
+                <nav v-if="!isLoading" class="w-full my-2 inline-block text-gray-700 leading-normal  font-semibold text-lg">{{ c_noteDetails?.caption }}</nav>
+                <nav v-if="isLoading" class="w-2/3 my-2 inline-block bg-gray-500/20 leading-normal  font-semibold text-lg rounded-lg">&nbsp;</nav>
+                <nav v-if="!isLoading" class="text-sm text-gray-500 trix-editor" v-html="c_noteDetails?.body" >
                  
                  
                 </nav>
+                <nav v-if="isLoading" class=" bg-gray-500/20 rounded-lg animate-pulse flex items-center text-sm  mb-2">  <span>&nbsp;</span></nav>
+                <nav v-if="isLoading" class=" bg-gray-500/20 rounded-lg animate-pulse flex items-center text-sm  mb-2">  <span>&nbsp;</span></nav>
+                <nav v-if="isLoading" class=" bg-gray-500/20 rounded-lg animate-pulse flex items-center text-sm ">  <span>&nbsp;</span></nav>
+
     
                 
 
@@ -47,30 +54,48 @@
     import Backdrop from '../../components/Backdrop.vue';
     import Modal from '../../components/Modal.vue';
     import { Inertia } from '@inertiajs/inertia'
-    import {defineProps, onMounted,ref} from 'vue'
-    let props = defineProps({data:Object, canEdit:Boolean})
+    import {defineProps, onMounted,ref,defineEmits} from 'vue'
+    import axios from 'axios'
+    let props = defineProps({slug:String})
+   
+    
+    let isLoading = ref(true)
     let imageHead = ref(null)
-    let id = props.data[0].id
-
+    let id = ref(null)
+    let c_noteDetails = ref(null)
+    let c_canEdit = ref(false)
     
    let setBgImage = () =>{
-        let imageUrl = props.data[0].image
+        let imageUrl = c_noteDetails.value.image
+      
         imageHead.value.style.backgroundColor = `${imageUrl}`
 
 
    }
 
-   let navigateback = () =>{
-    history.back();
-    return false;
 
-   }
+
+  let getNotedata = ()=>{
+    isLoading.value = true
+  axios.get(`/${props.slug}/json`).then((res)=>{
+    const {canEdit , noteDetails} =  res.data
+    c_noteDetails.value = noteDetails
+    c_canEdit.value = canEdit
+    id.value = noteDetails.id 
+    setBgImage()
+    isLoading.value = false
+  }).catch(err=>{
+    console.log(err)
+    isLoading.value = false
+  })
+ 
+};
 
 
    onMounted(()=>{
-        setBgImage()
-        
-        console.log(Boolean(props.data[0].isArchive))
+        getNotedata()
+  
+       
         
 
    })

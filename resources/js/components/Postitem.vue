@@ -23,7 +23,7 @@
       "
     >
       <nav
-        @click="getNotedata(slug)"
+        @click="$emit('getNotedata',slug)"
         class="
           absolute
           inset-0
@@ -87,6 +87,7 @@
 import { Inertia } from "@inertiajs/inertia";
 import { defineProps, onMounted, ref, watch } from "vue";
 import moment from "moment";
+import axios from 'axios'
 
 let postcard = ref("postcard");
 let defaultBg = "rgba(107, 114, 128, 0.4)";
@@ -100,12 +101,20 @@ let props = defineProps({
   created_at: String,
 });
 
-let getNotedata = (slug) => {
-  Inertia.visit(`/${slug}/view`, {
-    only: ["noteDetails"],
-    preserveScroll: true,
-  });
-};
+// let getNotedata = (slug) => {
+//   Inertia.visit(`/${slug}/view`, {
+//     only: ["noteDetails"],
+//     preserveScroll: true,
+//   });
+// };
+// let getNotedata = (slug) => {
+//   axios.get(`/${slug}/json`).then((res)=>{
+//     console.log(res.data)
+//   }).catch(err=>{
+//     console.log(err.response.data.error)
+//   })
+ 
+// };
 
 let getDate = () => {
   let currDate = moment(props.created_at);
